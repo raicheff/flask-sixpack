@@ -35,6 +35,14 @@ class Sixpack(object):
         app.config.setdefault('SIXPACK_COOKIE_TIMEOUT', timedelta(days=365))
         app.after_request(_after_request)
 
+    @staticmethod
+    def session():
+        ctx = stack.top
+        if ctx is not None:
+            if not hasattr(ctx, 'sixpack_session'):
+                ctx.sixpack_session = create_session()
+            return ctx.sixpack_session
+
 
 def create_session():
     options = {
@@ -59,14 +67,6 @@ def _after_request(response):
         response.set_cookie(cookie_name, getattr(g, cookie_name), max_age=current_app.config['SIXPACK_COOKIE_TIMEOUT'])
         response.vary.add('Cookie')
     return response
-
-
-def session():
-    ctx = stack.top
-    if ctx is not None:
-        if not hasattr(ctx, 'sixpack_session'):
-            ctx.sixpack_session = create_session()
-        return ctx.sixpack_session
 
 
 # EOF
