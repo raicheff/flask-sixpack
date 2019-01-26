@@ -15,7 +15,7 @@ setup(
     author='Boris Raicheff',
     author_email='b@raicheff.com',
     url='https://github.com/raicheff/flask-sixpack',
-    install_requires=['flask', 'sixpack-client'],
+    install_requires=['flask', 'sixpack-client', 'requests'],
     py_modules=['flask_sixpack'],
 )
 
